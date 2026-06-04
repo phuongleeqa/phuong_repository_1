@@ -3,9 +3,11 @@ package selenium;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.support.locators.RelativeLocator;
 import org.testng.annotations.*;
+
 
 public class Topic_02_locator_21 {
 
@@ -13,10 +15,15 @@ public class Topic_02_locator_21 {
 
     @BeforeClass
     public void initialBrowser() throws InterruptedException {
-        driver = new ChromeDriver();
+        EdgeOptions edgeOptions = new EdgeOptions();
+        edgeOptions.addArguments("--user-data-dir=C:/Users/This PC/AppData/Local/Microsoft/Edge/User Data/");
+        edgeOptions.addArguments("--profile-directory=Profile 1");
+        edgeOptions.addArguments("--disable-extensions");
+        driver = new EdgeDriver(edgeOptions);
+
         driver.manage().window().maximize();
         driver.get("https://demo.nopcommerce.com/login?returnUrl=%2F");
-        Thread.sleep(10000);
+        Thread.sleep(2000);
     }
 
     @Test
