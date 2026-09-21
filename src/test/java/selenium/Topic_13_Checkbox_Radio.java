@@ -86,7 +86,40 @@ public class Topic_13_Checkbox_Radio {
 
     @Test
     public void TC_02_Radio_Btn(){
-        driver.get("https://mui.com/material-ui/react-checkbox/");
+        driver.get("https://material.angular.dev/components/checkbox/examples");
+
+        By checkedCheckbox = By.xpath("//mat-checkbox[@id='mat-mdc-checkbox-0']//label[normalize-space()='Checked']");
+        By indeterminateCheckbox = By.xpath("//label[.//span[normalize-space()='Indeterminate']]//input[@type='checkbox']");
+        By disableCheckbox = By.xpath("//checkbox-configurable-example//section[3]//mat-checkbox/label");
+        By resultCheckbox = By.xpath("//mat-checkbox[@id='mat-mdc-checkbox-0']//label[normalize-space()=' I'm a checkbox']\"");
+
+        By afterRadio = By.xpath("//mat-radio-button[.//span[normalize-space()='After']]");
+        By beforeRadio = By.xpath("///mat-radio-button[.//span[normalize-space()='Before']]");
+
+
+        // Verify checkbox deselected
+        Assert.assertFalse(driver.findElement(checkedCheckbox).isSelected());
+        Assert.assertFalse(driver.findElement(indeterminateCheckbox).isSelected());
+        Assert.assertFalse(driver.findElement(disableCheckbox).isSelected());
+        Assert.assertFalse(driver.findElement(resultCheckbox).isSelected());
+        Assert.assertTrue(driver.findElement(afterRadio).isSelected());
+
+        //Click
+        driver.findElement(checkedCheckbox).click();
+        driver.findElement(indeterminateCheckbox).click();
+        driver.findElement(disableCheckbox).click();
+
+        //Verify checkbox selected
+        Assert.assertTrue(driver.findElement(checkedCheckbox).isSelected());
+        Assert.assertTrue(driver.findElement(indeterminateCheckbox).isSelected());
+        Assert.assertTrue(driver.findElement(disableCheckbox).isSelected());
+        Assert.assertTrue(driver.findElement(resultCheckbox).isSelected());
+        Assert.assertTrue(driver.findElement(beforeRadio).isSelected());
+
+        //Verify checkbox radio disabled and deselected
+        Assert.assertFalse(driver.findElement(resultCheckbox).isEnabled());
+        Assert.assertFalse(driver.findElement(afterRadio).isEnabled());
+
     }
 
     @AfterClass
