@@ -97,7 +97,49 @@ public class Topic_15_Alert {
 
     @Test
     public void TC_04_Authentication_Alert(){
+        driver.get("https://the-internet.herokuapp.com/basic_auth");
 
+        Assert.assertTrue(driver.findElement(By.xpath("div[@class='example']/p[contains(text()," + " 'Congratulations! You must have the proper credentials.')]")).isDisplayed());
+    }
+
+    @Test
+    public void TC_05_Authen_Alert_2(){
+        driver.get("https://the-internet.herokuapp.com");
+
+        String basicAuthenUrl = driver.findElement(By.xpath("//a[text()='Basic Auth']")).getDomProperty("href");
+        String [] urlSplit = basicAuthenUrl.split("//");
+        basicAuthenUrl = urlSplit[0] + "//" + "admin:admin@" + urlSplit[1];
+
+        driver.get(basicAuthenUrl);
+        Assert.assertTrue(driver.findElement(By.xpath("div[@class='example']/p[contains(text()," + " " +
+                "'Congratulations! You must have the proper credentials.')]")).isDisplayed());
+
+    }
+
+    @Test
+    public void TC_03_Authen_Alert() {
+        // Get DevTool object
+        DevTools devTools = ((HasDevTools) driver).getDevTools();
+
+        // Start new session
+        devTools.createSession();
+
+        // Enable the Network domain of devtools
+        devTools.send(Network.enable(Optional.empty(), Optional.empty(),
+                Optional.empty(), Optional.empty(), Optional.empty()));
+
+        // Encode username/ password
+        Map<String, Object> headers = new HashMap<String, Object>();
+        String basicAuthen = "Basic " + new String(new Base64().encode(String.format("%s:%s", "admin", "admin").getBytes()));
+        headers.put("Authorization", basicAuthen);
+
+        // Set to Header
+        devTools.send(Network.setExtraHTTPHeaders(new Headers(headers)));
+
+        driver.get("http://the-internet.herokuapp.com/basic_auth");
+
+        Assert.assertTrue(driver.findElement(By.xpath("//div[@class='example']/p[contains(text()," +
+                "'Congratulations! You must have the proper credentials.')]")).isDisplayed());
     }
 
     @AfterClass
